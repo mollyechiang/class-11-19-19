@@ -35,6 +35,9 @@ raw_data <- map_dfr(list, ~read_csv(.x, col_types = cols(
   timestamp = col_datetime(format = "")
 )), .id = "source")
 
+file_delete("full_data.zip")
+dir_delete("2018-live-poll-results-master/")
+
 ```
 
 ```{r analysis}
