@@ -22,17 +22,6 @@ download.file(url = "https://github.com/TheUpshot/2018-live-poll-results/archive
 unzip("full_data.zip")
 
 
-az02 <- read_csv("2018-live-poll-results-master/data/elections-poll-az02-1.csv", col_types = 
-cols(
-  .default = col_character(),
-  turnout_scale = col_double(),
-  turnout_score = col_double(),
-  w_LV = col_double(),
-  w_RV = col_double(),
-  final_weight = col_double(),
-  timestamp = col_datetime(format = "")
-))
-
 
 list <- dir_ls("2018-live-poll-results-master/data")
 
@@ -44,7 +33,23 @@ raw_data <- map_dfr(list, ~read_csv(.x, col_types = cols(
   w_RV = col_double(),
   final_weight = col_double(),
   timestamp = col_datetime(format = "")
-)))
+)), .id = "source")
 
 ```
+
+```{r analysis}
+
+clean_data <- raw_data %>%
+  mutate(dem_vote = ifelse(response == "Dem", 1, 0)) %>%
+  mutate(female = ifelse(gender == "Female",1,0)) %>%
+  select(dem_vote, female, response, gender)
+
+model <- glm(data = clean_data, formula = dem_vote ~ female)
+
+ggplot(clean_data, aes(x = female, y = dem_vote)) +
+  geom_jitter(width = .1, height = .1, alpha = .04) +
+  geom_smooth(method = "glm", method.args = list(family = "binomial"), se = FALSE)
+
+```
+
 
