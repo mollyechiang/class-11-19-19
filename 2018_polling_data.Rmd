@@ -1,0 +1,23 @@
+---
+title: "2018 Polling Data"
+author: "Molly Chiang"
+date: "11/19/2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+
+library(tidyverse)
+
+```
+
+
+```{r download_data}
+
+download.file(url = "https://github.com/TheUpshot/2018-live-poll-results/archive/master.zip", destfile = "/Users/mollychiang/Desktop/Harvard/Sophomore Year/Data/Projects/class-11-19-19/full_data.zip")
+
+unzip("full_data.zip")
+
+```
+
