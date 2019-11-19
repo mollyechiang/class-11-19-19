@@ -8,6 +8,8 @@ output: html_document
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE)
 
+library(fs)
+library(skimr)
 library(tidyverse)
 
 ```
@@ -18,6 +20,31 @@ library(tidyverse)
 download.file(url = "https://github.com/TheUpshot/2018-live-poll-results/archive/master.zip", destfile = "/Users/mollychiang/Desktop/Harvard/Sophomore Year/Data/Projects/class-11-19-19/full_data.zip")
 
 unzip("full_data.zip")
+
+
+az02 <- read_csv("2018-live-poll-results-master/data/elections-poll-az02-1.csv", col_types = 
+cols(
+  .default = col_character(),
+  turnout_scale = col_double(),
+  turnout_score = col_double(),
+  w_LV = col_double(),
+  w_RV = col_double(),
+  final_weight = col_double(),
+  timestamp = col_datetime(format = "")
+))
+
+
+list <- dir_ls("2018-live-poll-results-master/data")
+
+raw_data <- map_dfr(list, ~read_csv(.x, col_types = cols(
+  .default = col_character(),
+  turnout_scale = col_double(),
+  turnout_score = col_double(),
+  w_LV = col_double(),
+  w_RV = col_double(),
+  final_weight = col_double(),
+  timestamp = col_datetime(format = "")
+)))
 
 ```
 
